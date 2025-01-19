@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/static/style.css" />
+    <title>Car Information</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f9f9f9;
+        padding-top: 60px; /* Adjust this value based on your navbar height */
+      }
+
+      .custom-featured-img {
+        position: relative;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #f3f3f3;
+      }
+
+      .custom-featured-img img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: cover;
+        border-radius: 5px;
+      }
+
+      .custom-car-title {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        font-size: 24px;
+        font-weight: bold;
+        color: #fff;
+        background-color: rgba(0, 0, 0, 0.5);
+        padding: 5px 10px;
+        border-radius: 5px;
+      }
+
+      .custom-featured-card {
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        background-color: #fff;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      .custom-featured-header {
+        font-size: 16px;
+        font-weight: bold;
+        color: #dc3545;
+      }
+
+      .custom-new-badge {
+        background-color: #28a745;
+        color: #fff;
+        padding: 4px 8px;
+        border-radius: 5px;
+        margin-left: 10px;
+      }
+
+      .custom-featured-body {
+        margin-top: 10px;
+      }
+
+      .custom-car-name {
+        font-size: 20px;
+        color: #192a56;
+        margin-bottom: 5px;
+      }
+
+      .custom-car-price {
+        font-size: 18px;
+        color: #28a745;
+        margin-bottom: 5px;
+      }
+
+      .custom-car-location,
+      .custom-car-registration {
+        font-size: 16px;
+        color: #666;
+      }
+
+      .custom-car-description {
+        font-size: 16px;
+        color: #333;
+      }
+
+      .back-button {
+        margin: 20px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light">
+      <div class="container">
+        <a class="navbar-brand me-auto" href="/">Wheelify</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav mx-auto">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/">Home</a>
+            </li>
+          
+            <li class="nav-item">
+              <a class="nav-link mx-lg-2" href="/"
+                >Featured Cars</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link mx-lg-2" href="/displayallcars">All Cars</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link mx-lg-2" href="/buyCarPage/">Buy Car</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link mx-lg-2" href="/signUp/">Sign Up</a>
+            </li>
+          </ul>
+          <a
+            href="/postAddPage/"
+            class="btn btn-outline-primary ml-lg-2 add-post-button"
+            >Post Your Ad</a
+          >
+        </div>
+        
+      </div>
+    </nav>
+
+    <div class="container mt-5">
+      <a href="/displayallcars" class="btn btn-primary back-button">Back</a>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="custom-featured-img">
+            <div class="custom-car-title">{{ car.car_name }}</div>
+            <img
+              src="/image/{{ car.picture_id }}"
+              alt="Car Image"
+              class="img-fluid"
+            />
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="custom-featured-card p-3">
+              <div class="custom-featured-header mb-3">
+                  Featured Car 
+                  {% if car.is_new %}
+                  <span class="custom-new-badge">New</span>
+                  {% endif %}
+              </div>
+              <div class="custom-featured-body">
+                  <div class="custom-car-name mb-2">
+                      Car Name: {{ car.car_name }}
+                  </div>
+                  <div class="custom-car-price mb-2">
+                      Price: ${{ car.car_price }}
+                  </div>
+                  <div class="custom-car-location mb-2">City: {{ car.city }}</div>
+                  <div class="custom-car-registration mb-2">
+                      Registered in: {{ car.registered }}
+                  </div>
+                  <div class="custom-car-registration mb-2">
+                      category in: {{ car.category }}
+                  </div>
+                  <div class="custom-car-description">
+                      Description: {{ car.description }}
+                  </div>
+              </div>
+              <div class="btn-group mt-3">
+                  <button class="btn btn-primary mr-2" data-toggle="modal" data-target="#updateModal" data-id="{{ car._id }}" data-name="{{ car.car_name }}" data-price="{{ car.car_price }}" data-city="{{ car.city }}" data-registered="{{ car.registered }}" data-description="{{ car.description }}" data-picture-id="{{ car.picture_id }}" onclick="populateForm(this)">
+                      Update
+                  </button>
+                  <form action="/deleteCar/{{ car._id }}" method="post" onsubmit="return confirm('Are you sure you want to delete this car?');">
+                    <button class="btn btn-danger" type="submit">
+                        <span class="mr-2">Delete</span>
+                    </button>
+                </form>
+              </div>
+          </div>
+      </div>
+      
+          
+        </div>
+      </div>
+    </div>
+     <!-- Update Modal -->
+     <div
+     class="modal fade"
+     id="updateModal"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="updateModalLabel"
+     aria-hidden="true"
+   >
+     <div class="modal-dialog" role="document">
+       <div class="modal-content">
+         <div class="modal-header">
+           <h5 class="modal-title" id="updateModalLabel">Update Car</h5>
+           <button
+             type="button"
+             class="close"
+             data-dismiss="modal"
+             aria-label="Close"
+           >
+             <span aria-hidden="true">&times;</span>
+           </button>
+         </div>
+         <div class="modal-body">
+           <form
+             id="updateForm"
+             action=""
+             method="post"
+             enctype="multipart/form-data"
+           >
+             <div class="form-group">
+               <label for="car_name">Car Name</label>
+               <input
+                 type="text"
+                 class="form-control"
+                 id="car_name"
+                 name="car_name"
+                 required
+               />
+             </div>
+             <div class="form-group">
+               <label for="car_price">Car Price</label>
+               <input
+                 type="text"
+                 class="form-control"
+                 id="car_price"
+                 name="car_price"
+                 required
+               />
+             </div>
+             <div class="form-group">
+               <label for="city">City</label>
+               <input
+                 type="text"
+                 class="form-control"
+                 id="city"
+                 name="city"
+                 required
+               />
+             </div>
+             <div class="form-group">
+               <label for="registered">Registered</label>
+               <input
+                 type="text"
+                 class="form-control"
+                 id="registered"
+                 name="registered"
+                 required
+               />
+             </div>
+             <div class="form-group">
+               <label for="category">Categoreis:</label>
+               <select
+                 id="category"
+                 name="category"
+                 class="form-control"
+                 required
+               >
+                 <option value="">Select category</option>
+                 <option value="Electric">Electric</option>
+                 <option value="Truck">Truck</option>
+                 <option value="Sports Car">Sports Car</option>
+                 <option value="SUV">SUV</option>
+                 <option value="Hybrid">Hybrid</option>
+               </select>
+               <div class="invalid-feedback">Please select a category.</div>
+             </div>
+             <div class="form-group">
+               <label for="description">Description</label>
+               <textarea
+                 class="form-control"
+                 id="description"
+                 name="description"
+                 required
+               ></textarea>
+             </div>
+             <div class="form-group">
+               <label for="file">Upload Image:</label>
+               <input type="file" class="form-control" id="file" name="file" />
+             </div>
+             <div class="form-group">
+               <label for="currentPictureUrl">Current Picture URL</label>
+               <input
+                 type="text"
+                 class="form-control"
+                 id="currentPictureUrl"
+                 name="currentPictureUrl"
+                 readonly
+               />
+             </div>
+             <input
+               type="hidden"
+               id="currentPictureId"
+               name="currentPictureId"
+             />
+             <input type="hidden" id="car_id" name="car_id" />
+             <div class="modal-footer">
+               <button
+                 type="button"
+                 class="btn btn-secondary"
+                 data-dismiss="modal"
+               >
+                 Close
+               </button>
+               <button type="submit" class="btn btn-primary">
+                 Save changes
+               </button>
+             </div>
+           </form>
+         </div>
+       </div>
+     </div>
+   </div>
+
+   <script>
+     function populateForm(button) {
+       var carId = button.getAttribute("data-id");
+       var carName = button.getAttribute("data-name");
+       var carPrice = button.getAttribute("data-price");
+       var city = button.getAttribute("data-city");
+       var registered = button.getAttribute("data-registered");
+       var description = button.getAttribute("data-description");
+       var pictureId = button.getAttribute("data-picture-id");
+
+       document.getElementById("car_id").value = carId;
+       document.getElementById("car_name").value = carName;
+       document.getElementById("car_price").value = carPrice;
+       document.getElementById("city").value = city;
+       document.getElementById("registered").value = registered;
+       document.getElementById("description").value = description;
+
+       // Construct the URL using the picture_id
+       var pictureUrl = "/image/" + pictureId;
+       document.getElementById("currentPictureUrl").value = pictureUrl;
+       document.getElementById("currentPictureId").value = pictureId;
+
+       var form = document.getElementById("updateForm");
+       form.action = "/updateCar/" + carId; // Set your endpoint here
+     }
+   </script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </body>
+</html>

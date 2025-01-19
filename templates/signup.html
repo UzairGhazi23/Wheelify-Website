@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="/static/signin-up.css" />
+  </head>
+  <style>
+    body {
+      background: url("/static/carimages/bg-2.jpg") no-repeat center center
+        fixed;
+      background-size: cover;
+    }
+  </style>
+  <style></style>
+  <body>
+    <div class="container">
+      <a href="/" class="btn btn-primary mt-3 mb-3">Back</a>
+      <!-- Back Button -->
+
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+          <div class="form-container">
+            <h2>Create Your Account</h2>
+            <form
+              id="signUpForm"
+              action="/signupform/"
+              class="needs-validation"
+              method="post"
+              novalidate
+            >
+              <div class="row">
+                <div class="col-md-8">
+                  <div class="form-group">
+                    <label for="firstName">First Name:</label>
+                    <input
+                      type="text"
+                      id="firstName"
+                      name="firstName"
+                      class="form-control"
+                      placeholder="Enter your first name"
+                      required
+                    />
+                    <div class="invalid-feedback">
+                      Please provide your first name.
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="lastName">Last Name:</label>
+                    <input
+                      type="text"
+                      id="lastName"
+                      name="lastName"
+                      class="form-control"
+                      placeholder="Enter your last name"
+                      required
+                    />
+                    <div class="invalid-feedback">
+                      Please provide your last name.
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="userName">User Name:</label>
+                    <input
+                      type="text"
+                      id="userName"
+                      name="userName"
+                      class="form-control"
+                      placeholder="Enter your last name"
+                      required
+                    />
+                    <div class="invalid-feedback">
+                      Please provide your userName.
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      class="form-control"
+                      placeholder="Enter your email"
+                      required
+                    />
+                    <div class="invalid-feedback">
+                      Please provide a valid email address.
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input
+                      type="password"
+                      id="password"
+                      name="password"
+                      class="form-control"
+                      placeholder="Create a password"
+                      required
+                    />
+                    <small class="form-text text-muted"
+                      >Your password must be 8-20 characters long.</small
+                    >
+                    <div class="invalid-feedback">
+                      Please provide a password that is 8-20 characters long.
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="confirmPassword">Confirm Password:</label>
+                    <input
+                      type="password"
+                      id="confirmPassword"
+                      name="confirmPassword"
+                      class="form-control"
+                      placeholder="Confirm your password"
+                      required
+                    />
+                    <div class="invalid-feedback">Passwords do not match.</div>
+                  </div>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary btn-block">
+                Sign Up
+              </button>
+              {% if error %}
+              <p style="color: red">{{ error }}</p>
+              {% endif %}
+            </form>
+            <div class="text-center mt-3">
+              <p>Already have an account? <a href="#">Log In</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+      integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js"
+      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      // Example starter JavaScript for disabling form submissions if there are invalid fields
+      (function () {
+        "use strict";
+        window.addEventListener(
+          "load",
+          function () {
+            var forms = document.getElementsByClassName("needs-validation");
+            var validation = Array.prototype.filter.call(
+              forms,
+              function (form) {
+                form.addEventListener(
+                  "submit",
+                  function (event) {
+                    if (form.checkValidity() === false) {
+                      event.preventDefault();
+                      event.stopPropagation();
+                    }
+                    form.classList.add("was-validated");
+                  },
+                  false
+                );
+              }
+            );
+          },
+          false
+        );
+      })();
+
+      // Image preview
+      document
+        .getElementById("imageUpload")
+        .addEventListener("change", function (event) {
+          var reader = new FileReader();
+          reader.onload = function () {
+            if (reader.readyState == 2) {
+              document.getElementById("imagePreview").src = reader.result;
+            }
+          };
+          reader.readAsDataURL(event.target.files[0]);
+        });
+    </script>
+  </body>
+</html>
